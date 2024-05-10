@@ -1,21 +1,23 @@
-const $ = require( "jquery" );
-// Load the full build
-const _ = require("lodash");
+// Import jQuery and Lodash
+import $ from 'jquery';
+import _ from 'lodash';
 
-let count = 0;
+// Function to update counter
+const updateCounter = _.debounce(() => {
+    let count = parseInt($('#count').text()) || 0;
+    count++;
+    $('#count').text(`${count} clicks on the button`);
+}, 300); // Debounce delay set to 300ms
 
-function updateCounter() {
-  count++;
-  $( "#count" ).text(`${count} clicks on the button` );
-}
+// Add elements to the DOM
+$(document).ready(() => {
+    $('body').append('<p>Holberton Dashboard</p>');
+    $('body').append('<p>Dashboard data for the students</p>');
+    $('body').append('<button id="clickButton">Click here to get started</button>');
+    $('body').append('<p id="count"></p>');
+    $('body').append('<p>Copyright - Holberton School</p>');
 
-const $button = $("<button>Click here to get started</button>").on(
-  "click",
-  _.debounce( updateCounter, 500, { leading: true, trailing: false })
-);
+    // Bind click event and update counter
+    $('#clickButton').on('click', updateCounter);
+});
 
-$('body').append("<p>Holberton Dashboard</p>");
-$('body').append("<p>Dashboard data for the students</p>");
-$('body').append($button);
-$('body').append("<p id='count'></p>");
-$('body').append("<p>Copyright - Holberton School</p>");
